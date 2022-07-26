@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Roboto:wght@300;400;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Roboto:wght@300;400;700&display=swap');
 
 *,
 *::after,
@@ -11,14 +11,40 @@
 body {
   position: relative;
   min-height: 100vh;
+  font-family: 'Roboto', sans-serif;
 }
 
 .footer-text {
   border: solid 4px black;
   padding: 2rem;
-  font-family: "Roboto", sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 1.3rem;
   position: absolute;
   bottom: 0%;
   width: 100%;
+}
+
+ul li {
+  list-style-type: none;
+}
+
+.header {
+  display: flex;
+  gap: 2rem;
+  margin: 0 auto;
+  max-width: 900px;
+  width: 90%;
+  margin-top: 2rem;
+  align-items: center;
+}
+
+.logo {
+  border: 1px solid black;
+  padding: 0.5rem;
+  border-radius: 5rem;
+}
+
+.navbar-list {
+  display: flex;
+  gap: 2rem;
 }
