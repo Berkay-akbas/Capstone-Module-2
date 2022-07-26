@@ -8,8 +8,7 @@ const asyncGetCall = async (photographer) => {
       method: 'GET',
 
     });
-    const data = await response.json()
-    console.log(data);
+    const data = await response.json();
     return data;
   } catch (error) {
     return error;
@@ -44,7 +43,7 @@ const photoWrapper = document.querySelector('.photos-wrapper');
 
 const showlist = (photographer) => {
   const arr = [];
-  photoWrapper.innerHTML = ``;
+  photoWrapper.innerHTML = '';
   asyncGetCall(photographer).then((value) => {
     for (let index = 0; index < 8; index += 1) {
       const obj = {
@@ -56,7 +55,7 @@ const showlist = (photographer) => {
         height: value[index].height,
       };
       const url = value[index].urls.thumb;
-      const id = value[index].id;
+      const { id } = value[index];
       const b = document.createElement('div');
       b.classList.add('photo-item');
       b?.setAttribute('id', obj.id);
@@ -89,14 +88,14 @@ const cars = document.querySelector('.cars');
 const nature = document.querySelector('.nature');
 const arch = document.querySelector('.architecture');
 
-arch.addEventListener('click', function () {
-  showlist('parrish')
+arch.addEventListener('click', () => {
+  showlist('parrish');
 });
 
-nature.addEventListener('click', function () {
+nature.addEventListener('click', () => {
   showlist('gerandeklerk');
 });
 
-cars.addEventListener('click', function () {
+cars.addEventListener('click', () => {
   showlist('ixography');
-})
+});
