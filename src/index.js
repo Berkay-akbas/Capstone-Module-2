@@ -46,12 +46,12 @@ const showCars = () => {
   asyncGetCall().then((value) => {
     for (let index = 0; index < value.length - 1; index += 1) {
       const obj = {
-        id:     value[index].id,
-        img:    value[index].urls.thumb,
-        desc:   value[index].description,
-        color:  value[index].color,
-        width:  value[index].width,
-        height: value[index].height
+        id: value[index].id,
+        img: value[index].urls.thumb,
+        desc: value[index].description,
+        color: value[index].color,
+        width: value[index].width,
+        height: value[index].height,
       };
       const url = value[index].urls.thumb;
       const b = document.createElement('div');
@@ -72,12 +72,12 @@ const showCars = () => {
 
     const openComments = document.querySelectorAll('.open-comments');
     openComments.forEach((comment) => {
-        comment.addEventListener('click', (e) => {
-          const id = e.target.parentElement.id;
-          const imgObj = arr.filter((img) => img['id'] === id);
-          showPopupComment(imgObj);
+      comment.addEventListener('click', (e) => {
+        const { id } = e.target.parentElement;
+        const imgObj = arr.filter((img) => img.id === id);
+        showPopupComment(imgObj);
       });
-    });  
+    });
   });
 };
 
