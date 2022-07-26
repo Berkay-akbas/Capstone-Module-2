@@ -1,14 +1,15 @@
 import './style.css';
 
-const asyncGetCall = async () => {
+const asyncGetCall = async (photographer) => {
   try {
-    const username = 'gerandeklerk';
+    const username = photographer;
     const response = await fetch(`https://api.unsplash.com/users/${username}/photos?orientation=portrait&page=1&per_page=9&client_id=ORV6G4HML0wf1fJObg3OgNJTNx-asI0llrIPLPMpwYw
     `, {
       method: 'GET',
 
     });
-    const data = await response.json();
+    const data = await response.json()
+    console.log(data);
     return data;
   } catch (error) {
     return error;
@@ -41,10 +42,11 @@ const showPopupComment = (imgObj) => {
 
 const photoWrapper = document.querySelector('.photos-wrapper');
 
-const showCars = () => {
+const showlist = (photographer) => {
   const arr = [];
-  asyncGetCall().then((value) => {
-    for (let index = 0; index < value.length - 1; index += 1) {
+  photoWrapper.innerHTML = ``;
+  asyncGetCall(photographer).then((value) => {
+    for (let index = 0; index < 8; index += 1) {
       const obj = {
         id: value[index].id,
         img: value[index].urls.thumb,
@@ -54,18 +56,18 @@ const showCars = () => {
         height: value[index].height,
       };
       const url = value[index].urls.thumb;
+      const id = value[index].id;
       const b = document.createElement('div');
       b.classList.add('photo-item');
       b?.setAttribute('id', obj.id);
       b.innerHTML = `<img src="${url}" alt="photo" />
-  <h3>Photo 1</h3>
+  <h3>Id: ${id}</h3>
   <div class="like-container">
     <i class="fa fa-heart"></i>
     <div class="like-counter">4</div>
   </div>
   <button class="open-comments">Comments</button>
   <button>Reservations</button>`;
-
       arr.push(obj);
       photoWrapper.appendChild(b);
     }
@@ -81,4 +83,20 @@ const showCars = () => {
   });
 };
 
-showCars();
+showlist('ixography');
+
+const cars = document.querySelector('.cars');
+const nature = document.querySelector('.nature');
+const arch = document.querySelector('.architecture');
+
+arch.addEventListener('click', function () {
+  showlist('parrish')
+});
+
+nature.addEventListener('click', function () {
+  showlist('gerandeklerk');
+});
+
+cars.addEventListener('click', function () {
+  showlist('ixography');
+})
