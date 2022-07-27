@@ -1,6 +1,6 @@
 import './style.css';
 import { getLikes, postLikes } from './likes.js';
-import { getComments, postComments } from './comments.js';
+import { getComments, postComments, countComments } from './comments.js';
 
 const asyncGetCall = async (photographer) => {
   try {
@@ -26,14 +26,6 @@ const showMessage = (msg, status) => {
     displayMessage.innerHTML = '';
     displayMessage.classList.remove(status);
   }, 2000);
-};
-
-const countComments = (values) => {
-  if (values.length > 0) {
-    return values.length;
-  } else {
-    return 0;
-  }
 };
 
 const showPopupComment = (imgObj) => {
