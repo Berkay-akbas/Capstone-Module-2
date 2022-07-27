@@ -22,9 +22,9 @@ const postComments = async (id, userName, userComment) => {
     const response = await fetch(requestedURL, {
       method: 'POST',
       body: JSON.stringify({
-        "item_id": id,
-        "username": userName,
-        "comment": userComment,
+        item_id: id,
+        username: userName,
+        comment: userComment,
       }),
       headers: {
         'Content-type': 'application/json; charset=UTF-8',
@@ -38,4 +38,4 @@ const postComments = async (id, userName, userComment) => {
   }
 };
 
-export { getComments, postComments} ;
+export { getComments, postComments };
