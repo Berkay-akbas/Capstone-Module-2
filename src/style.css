@@ -127,3 +127,14 @@ ul li {
   align-items: flex-end;
   margin-top: -1rem;
 }
+
+.modal .comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+.modal .comments-list h3 {
+  align-self: center;
+}
