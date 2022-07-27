@@ -1,5 +1,5 @@
 import './style.css';
-import { getComments } from './comments.js';
+import getComments from './comments.js';
 
 const asyncGetCall = async (photographer) => {
   try {
@@ -23,7 +23,7 @@ const showPopupComment = (imgObj) => {
   modal.classList.add('modal');
   const commentsDiv = document.createElement('div');
   commentsDiv.classList.add('comments-list');
-  
+
   const content = `<img src=${imgObj[0].img} class="popup-image">
       <button class="btn-close" id="close-comment"><i class="fa-solid fa-xmark"></i></button>
       <h3>${imgObj[0].desc}</h3>
@@ -41,7 +41,7 @@ const showPopupComment = (imgObj) => {
         commentsDiv.innerHTML += `<p>${value.creation_date} ${value.username}: ${value.comment}</p>`;
       });
     } else {
-      commentsDiv.innerHTML += `<h3>Comments (0)</h3>`;
+      commentsDiv.innerHTML += '<h3>Comments (0)</h3>';
     }
   }).then(() => {
     modal.innerHTML = content;

@@ -8,10 +8,9 @@ const getComments = async (id) => {
     });
     const data = await response.json();
     return data;
-  }
-  catch(error) {
+  } catch (error) {
     return error;
   }
 };
 
-export { getComments} ;
+export default getComments;
