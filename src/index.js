@@ -1,6 +1,11 @@
 import './style.css';
 import { getLikes, postLikes } from './likes.js';
 import { getComments, postComments } from './comments.js';
+import count from './itemsCounter.js';
+
+const cars = document.querySelector('.cars');
+const nature = document.querySelector('.nature');
+const arch = document.querySelector('.architecture');
 
 const asyncGetCall = async (photographer) => {
   try {
@@ -94,7 +99,6 @@ const showPopupComment = (imgObj) => {
 };
 
 const photoWrapper = document.querySelector('.photos-wrapper');
-
 const showlist = (photographer) => {
   const arr = [];
   photoWrapper.innerHTML = '';
@@ -124,6 +128,22 @@ const showlist = (photographer) => {
       arr.push(obj);
       photoWrapper.appendChild(b);
     }
+    count();
+    const counter = count();
+    if (photographer === 'ixography') {
+      cars.innerHTML = `Cars (${counter})`;
+      nature.innerHTML = 'Nature';
+      arch.innerHTML = 'Architecture ';
+    } else if (photographer === 'parrish') {
+      arch.innerHTML = `Architecture (${counter})`;
+      nature.innerHTML = 'Nature';
+      cars.innerHTML = 'Cars';
+    } else if (photographer === 'gerandeklerk') {
+      nature.innerHTML = `Nature (${counter})`;
+      arch.innerHTML = 'Architecture';
+      cars.innerHTML = 'Cars';
+    }
+
     const openComments = document.querySelectorAll('.open-comments');
     openComments.forEach((comment) => {
       comment.addEventListener('click', (e) => {
@@ -166,10 +186,6 @@ const showlist = (photographer) => {
 };
 
 showlist('ixography');
-
-const cars = document.querySelector('.cars');
-const nature = document.querySelector('.nature');
-const arch = document.querySelector('.architecture');
 
 arch.addEventListener('click', () => {
   showlist('parrish');
