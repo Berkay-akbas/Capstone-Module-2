@@ -170,7 +170,6 @@ const showlist = (photographer) => {
 
   getLikes().then((value) => {
     const counter = document.querySelectorAll('.like-counter');
-
     counter.forEach((item) => {
       const { id } = item.parentElement.parentElement;
 
