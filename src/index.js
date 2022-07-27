@@ -1,8 +1,5 @@
 import './style.css';
-
-import getComments from './comments.js';
 import { getLikes, postLikes } from './likes.js';
-
 import { getComments, postComments } from './comments.js';
 
 const asyncGetCall = async (photographer) => {
