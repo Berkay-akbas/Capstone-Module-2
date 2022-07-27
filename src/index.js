@@ -27,6 +27,14 @@ const showMessage = (msg, status) => {
   }, 2000);
 };
 
+const countComments = (values) => {
+  if (values.length > 0) {
+    return values.length;
+  } else {
+    return 0;
+  }
+};
+
 const showPopupComment = (imgObj) => {
   const modalContainer = document.querySelector('#modal_container');
   modalContainer.classList.add('show');
@@ -54,13 +62,12 @@ const showPopupComment = (imgObj) => {
           </form>`;
 
   getComments(imgObj[0].id).then((values) => {
-    if (values.length > 0) {
-      commentsDiv.innerHTML += `<h3>Comments (${values.length})</h3>`;
+    const numOfComments = countComments(values);
+    commentsDiv.innerHTML += `<h3>Comments (${numOfComments})</h3>`;
+    if (numOfComments > 0) {
       values.forEach((value) => {
         commentsDiv.innerHTML += `<p>${value.creation_date} ${value.username}: ${value.comment}</p>`;
       });
-    } else {
-      commentsDiv.innerHTML += '<h3>Comments (0)</h3>';
     }
   }).then(() => {
     modal.innerHTML = content;
