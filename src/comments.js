@@ -38,4 +38,11 @@ const postComments = async (id, userName, userComment) => {
   }
 };
 
-export { getComments, postComments };
+const countComments = (arr) => {
+  if (arr.length > 0) {
+    return arr.length;
+  }
+  return 0;
+};
+
+export { getComments, postComments, countComments };

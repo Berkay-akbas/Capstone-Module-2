@@ -1,6 +1,6 @@
 import './style.css';
 import { getLikes, postLikes } from './likes.js';
-import { getComments, postComments } from './comments.js';
+import { getComments, postComments, countComments } from './comments.js';
 
 const asyncGetCall = async (photographer) => {
   try {
@@ -55,13 +55,12 @@ const showPopupComment = (imgObj) => {
           </form>`;
 
   getComments(imgObj[0].id).then((values) => {
-    if (values.length > 0) {
-      commentsDiv.innerHTML += `<h3>Comments (${values.length})</h3>`;
+    const numOfComments = countComments(values);
+    commentsDiv.innerHTML += `<h3>Comments (${numOfComments})</h3>`;
+    if (numOfComments > 0) {
       values.forEach((value) => {
         commentsDiv.innerHTML += `<p>${value.creation_date} ${value.username}: ${value.comment}</p>`;
       });
-    } else {
-      commentsDiv.innerHTML += '<h3>Comments (0)</h3>';
     }
   }).then(() => {
     modal.innerHTML = content;
