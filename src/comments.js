@@ -41,9 +41,8 @@ const postComments = async (id, userName, userComment) => {
 const countComments = (arr) => {
   if (arr.length > 0) {
     return arr.length;
-  } else {
-    return 0;
   }
+  return 0;
 };
 
 export { getComments, postComments, countComments };
