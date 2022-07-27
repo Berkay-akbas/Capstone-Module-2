@@ -1,4 +1,5 @@
 import './style.css';
+import { getLikes, postLikes } from './likes.js';
 import { getComments, postComments } from './comments.js';
 
 const asyncGetCall = async (photographer) => {
@@ -122,15 +123,14 @@ const showlist = (photographer) => {
       b.innerHTML = `<img src="${url}" alt="photo" />
   <h3>Id: ${id}</h3>
   <div class="like-container">
-    <i class="fa fa-heart"></i>
-    <div class="like-counter">4</div>
+    <i class="fa fa-heart" id="like"></i>
+    <div class="like-counter"></div>
   </div>
   <button class="open-comments">Comments</button>
   <button>Reservations</button>`;
       arr.push(obj);
       photoWrapper.appendChild(b);
     }
-
     const openComments = document.querySelectorAll('.open-comments');
     openComments.forEach((comment) => {
       comment.addEventListener('click', (e) => {
@@ -138,6 +138,36 @@ const showlist = (photographer) => {
         const imgObj = arr.filter((img) => img.id === id);
         showPopupComment(imgObj);
       });
+    });
+
+    const likeButton = document.querySelectorAll('.fa-heart');
+
+    likeButton.forEach((button) => {
+      button.addEventListener('mouseup', (e) => {
+        const { id } = e.target.parentElement.parentElement;
+        postLikes(id).then((status) => {
+          if (status === 201) {
+            const count = e.target.nextElementSibling.innerHTML;
+            e.target.nextElementSibling.innerHTML = parseInt(count, 10) + 1;
+          }
+        });
+      });
+    });
+  });
+
+  getLikes().then((value) => {
+    const counter = document.querySelectorAll('.like-counter');
+
+    counter.forEach((item) => {
+      const { id } = item.parentElement.parentElement;
+
+      const totalLikes = value.filter((obj) => obj.item_id === id);
+
+      if (totalLikes[0] !== undefined) {
+        item.innerHTML = `${totalLikes[0].likes}`;
+      } else {
+        item.innerHTML = '0';
+      }
     });
   });
 };
