@@ -1,5 +1,5 @@
 import './style.css';
-import getComments from './comments.js';
+import { getComments, postComments } from './comments.js';
 
 const asyncGetCall = async (photographer) => {
   try {
@@ -14,6 +14,17 @@ const asyncGetCall = async (photographer) => {
   } catch (error) {
     return error;
   }
+};
+
+const showMessage = (msg, status) => {
+  const displayMessage = document.querySelector('.message');
+  displayMessage.classList.add(status);
+  displayMessage.innerHTML = msg;
+
+  setTimeout(() => {
+    displayMessage.innerHTML = '';
+    displayMessage.classList.remove(status);
+  }, 2000);
 };
 
 const showPopupComment = (imgObj) => {
@@ -34,6 +45,14 @@ const showPopupComment = (imgObj) => {
         <p>color: ${imgObj[0].color}</p>
       </div>`;
 
+  const commentForm = `<form class="comment-form">
+            <h3>Add a comment</h3>
+            <p class="message"></p>
+            <input type="text" class="user-name" required placeholder="Your name">
+            <textarea class="user-comment" cols="30" rows="10" placeholder="Your Insights"></textarea>
+            <button class="btn btn-add-comment">Comment</button>
+          </form>`;
+
   getComments(imgObj[0].id).then((values) => {
     if (values.length > 0) {
       commentsDiv.innerHTML += `<h3>Comments (${values.length})</h3>`;
@@ -46,7 +65,24 @@ const showPopupComment = (imgObj) => {
   }).then(() => {
     modal.innerHTML = content;
     modal.appendChild(commentsDiv);
+    modal.innerHTML += commentForm;
     modalContainer.appendChild(modal);
+
+    const btnAddComment = document.querySelector('.btn-add-comment');
+    btnAddComment.addEventListener('click', (e) => {
+      e.preventDefault();
+      const userName = document.querySelector('.user-name');
+      const userComment = document.querySelector('.user-comment');
+      postComments(imgObj[0].id, userName.value, userComment.value).then((status) => {
+        if (status === 201) {
+          showMessage('Comment Added Successfully', 'success');
+        } else {
+          showMessage('There is some error', 'error');
+        }
+        userName.value = '';
+        userComment.value = '';
+      });
+    });
 
     const closeComment = document.querySelector('#close-comment');
     closeComment.addEventListener('click', () => {
