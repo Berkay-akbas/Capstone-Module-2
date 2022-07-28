@@ -7,7 +7,8 @@
     "build": "webpack",
     "watch": "webpack --watch",
     "start": "webpack serve --open",
-    "test": "jest --env=jsdom"
+    "test": "jest --env=jsdom",
+    "deploy": "gh-pages -d dist"
   },
   "repository": {
     "type": "git",
@@ -19,7 +20,7 @@
   "bugs": {
     "url": "https://github.com/Berkay-akbas/Capstone-Module-2/issues"
   },
-  "homepage": "https://github.com/Berkay-akbas/Capstone-Module-2#readme",
+  "homepage": "http://Berkay-akbas.github.io/Capstone-Module-2",
   "devDependencies": {
     "@babel/preset-env": "^7.18.9",
     "babel-eslint": "^10.1.0",
@@ -28,6 +29,7 @@
     "eslint": "^7.32.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.26.0",
+    "gh-pages": "^4.0.0",
     "hint": "^2.0.0",
     "html-loader": "^4.1.0",
     "html-webpack-plugin": "^5.5.0",
