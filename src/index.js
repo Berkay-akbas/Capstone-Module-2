@@ -128,13 +128,13 @@ const showlist = (photographer) => {
       photoWrapper.appendChild(b);
     }
     const heart = document.querySelectorAll('.fa-heart');
-    heart.forEach(element => {
-      element.addEventListener('click',() => {
+    heart.forEach((element) => {
+      element.addEventListener('click', () => {
         element.classList.toggle('transform-active');
         setTimeout(() => {
           element.classList.remove('transform-active');
         }, 1000);
-      })
+      });
     });
     count();
     const counter = count();
@@ -205,4 +205,3 @@ nature.addEventListener('click', () => {
 cars.addEventListener('click', () => {
   showlist('ixography');
 });
-
