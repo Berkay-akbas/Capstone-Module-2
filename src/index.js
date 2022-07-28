@@ -127,6 +127,15 @@ const showlist = (photographer) => {
       arr.push(obj);
       photoWrapper.appendChild(b);
     }
+    const heart = document.querySelectorAll('.fa-heart');
+    heart.forEach((element) => {
+      element.addEventListener('click', () => {
+        element.classList.toggle('transform-active');
+        setTimeout(() => {
+          element.classList.remove('transform-active');
+        }, 1000);
+      });
+    });
     count();
     const counter = count();
     if (photographer === 'ixography') {
