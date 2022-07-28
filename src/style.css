@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Roboto:wght@300;400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Roboto:wght@300;400;700&display=swap");
 
 *,
 *::after,
@@ -11,13 +11,13 @@
 body {
   position: relative;
   min-height: 100vh;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 .footer-text {
   border: solid 4px black;
   padding: 2rem;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   font-size: 1.3rem;
   position: absolute;
   bottom: 0%;
@@ -128,7 +128,7 @@ ul li {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  margin-top: -1rem;
+  margin-top: -1.5rem;
 }
 
 .modal .comments-list {
@@ -175,4 +175,57 @@ ul li {
   color: white;
   background-color: #008000;
   padding: 0.5rem;
+}
+
+/* Styling for the like button */
+
+.photo-item img {
+  width: auto;
+  height: 100%;
+  object-fit: fill;
+}
+
+.photo-item h3 {
+  margin-top: 0.5rem;
+}
+
+.fa-heart {
+  color: red;
+  cursor: pointer;
+}
+
+.transform-active {
+  animation: heart 0.5s ease-in;
+}
+
+@keyframes heart {
+  0% {
+    transform: scale(0.5);
+  }
+  100% {
+    transform: scale(1.6);
+  }
+}
+
+/* Styling for the photo buttons */
+
+.photo-item button {
+  cursor: pointer;
+  border: none;
+  margin: 0.2rem;
+  padding: 0.2rem;
+  border-radius: 10px;
+  box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.24);
+  font-size: 1rem;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+}
+
+.photo-item button:hover {
+  background-color: rgb(230, 230, 194);
+}
+
+.photo-item button:active {
+  transform: scale(0.88);
+  box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
 }
