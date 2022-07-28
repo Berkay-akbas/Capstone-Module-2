@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { countComments } from '../comments.js';
+import { countComments } from '../modules/comments.js';
 
 describe('Testing Number of comments', () => {
   test('Test 3 comment in list', () => {

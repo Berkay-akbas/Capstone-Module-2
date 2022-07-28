@@ -1,4 +1,4 @@
-import count from './itemsCounter.js';
+import count from '../modules/itemsCounter.js';
 
 document.body.innerHTML = `<header class="header">
 <div class="logo">Imagery Logo</div>

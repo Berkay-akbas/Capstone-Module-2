@@ -1,7 +1,8 @@
 import './style.css';
-import { getLikes, postLikes } from './likes.js';
-import { getComments, postComments, countComments } from './comments.js';
-import count from './itemsCounter.js';
+import { getLikes, postLikes } from './modules/likes.js';
+import { getComments, postComments, countComments } from './modules/comments.js';
+import count from './modules/itemsCounter.js';
+import { showMessage, getImageAndDescription, getCommentForm } from './modules/commentsUI.js';
 
 const cars = document.querySelector('.cars');
 const nature = document.querySelector('.nature');
@@ -22,77 +23,62 @@ const asyncGetCall = async (photographer) => {
   }
 };
 
-const showMessage = (msg, status) => {
-  const displayMessage = document.querySelector('.message');
-  displayMessage.classList.add(status);
-  displayMessage.innerHTML = msg;
+const updateComments = (imgObj, modal, commentForm) => {
+  const commentsDiv = document.createElement('div');
+  commentsDiv.classList.add('comments-list');
 
-  setTimeout(() => {
-    displayMessage.innerHTML = '';
-    displayMessage.classList.remove(status);
-  }, 2000);
+  getComments(imgObj[0].id).then((values) => {
+    const filter = values.filter((ob) => ob.username !== 'Cem oral' && ob.username !== 'Berkay akbaş');
+    const numOfComments = countComments(filter);
+
+    commentsDiv.innerHTML += `<h3>Comments (${numOfComments})</h3>`;
+    if (numOfComments > 0) {
+      filter.forEach((value) => {
+        commentsDiv.innerHTML += `<p>${value.creation_date} ${value.username}: ${value.comment}</p>`;
+      });
+    }
+  }).then(() => {
+    modal.insertBefore(commentsDiv, commentForm);
+  });
+  return commentsDiv;
 };
 
 const showPopupComment = (imgObj) => {
   const modalContainer = document.querySelector('#modal_container');
   modalContainer.classList.add('show');
+
   const modal = document.createElement('div');
   modal.classList.add('modal');
-  const commentsDiv = document.createElement('div');
-  commentsDiv.classList.add('comments-list');
 
-  const content = `<img src=${imgObj[0].img} class="popup-image">
-      <button class="btn-close" id="close-comment"><i class="fa-solid fa-xmark"></i></button>
-      <h3>${imgObj[0].desc}</h3>
-      <div class="description">
-        <p>width: ${imgObj[0].width}</p>
-        <p>height: ${imgObj[0].height}</p>
-        <p>id: ${imgObj[0].id}</p>
-        <p>color: ${imgObj[0].color}</p>
-      </div>`;
+  const imageAndDescription = getImageAndDescription(imgObj);
+  modal.innerHTML = imageAndDescription;
 
-  const commentForm = `<form class="comment-form">
-            <h3>Add a comment</h3>
-            <p class="message"></p>
-            <input type="text" class="user-name" required placeholder="Your name">
-            <textarea class="user-comment" cols="30" rows="10" placeholder="Your Insights"></textarea>
-            <button class="btn btn-add-comment">Comment</button>
-          </form>`;
+  const commentForm = getCommentForm();
+  modal.appendChild(commentForm);
+  modalContainer.appendChild(modal);
 
-  getComments(imgObj[0].id).then((values) => {
-    const numOfComments = countComments(values);
-    commentsDiv.innerHTML += `<h3>Comments (${numOfComments})</h3>`;
-    if (numOfComments > 0) {
-      values.forEach((value) => {
-        commentsDiv.innerHTML += `<p>${value.creation_date} ${value.username}: ${value.comment}</p>`;
-      });
-    }
-  }).then(() => {
-    modal.innerHTML = content;
-    modal.appendChild(commentsDiv);
-    modal.innerHTML += commentForm;
-    modalContainer.appendChild(modal);
+  const closeComment = document.querySelector('#close-comment');
+  closeComment.addEventListener('click', () => {
+    modalContainer.classList.remove('show');
+    modalContainer.removeChild(modal);
+  });
 
-    const btnAddComment = document.querySelector('.btn-add-comment');
-    btnAddComment.addEventListener('click', (e) => {
-      e.preventDefault();
-      const userName = document.querySelector('.user-name');
-      const userComment = document.querySelector('.user-comment');
-      postComments(imgObj[0].id, userName.value, userComment.value).then((status) => {
-        if (status === 201) {
-          showMessage('Comment Added Successfully', 'success');
-        } else {
-          showMessage('There is some error', 'error');
-        }
-        userName.value = '';
-        userComment.value = '';
-      });
-    });
+  const commentsDiv = updateComments(imgObj, modal, commentForm);
 
-    const closeComment = document.querySelector('#close-comment');
-    closeComment.addEventListener('click', () => {
-      modalContainer.classList.remove('show');
-      modalContainer.removeChild(modal);
+  const btnAddComment = document.querySelector('.btn-add-comment');
+  btnAddComment.addEventListener('click', (e) => {
+    e.preventDefault();
+    const userName = document.querySelector('.user-name');
+    const userComment = document.querySelector('.user-comment');
+    postComments(imgObj[0].id, userName.value, userComment.value).then((status) => {
+      if (status === 201) {
+        modal.removeChild(commentsDiv);
+        updateComments(imgObj, modal, commentForm);
+      } else {
+        showMessage('There is some error', 'error');
+      }
+      userName.value = '';
+      userComment.value = '';
     });
   });
 };
