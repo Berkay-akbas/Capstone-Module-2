@@ -54,6 +54,15 @@ If you want to set up a personal repository based on this one, you can as well f
 After clone it and before working on it, you have to run `npm install` so that all the dependencies of the project get downloaded in your pc locally.
 Such dependencies include webpack and linters checks, for which you have to either generate your own config file or get one.
 
+- `npm run build`
+- `npm run start`
+
+### Run tests
+
+- `npx hint .`
+- `npx stylelint "**/*.scss"`
+- `npx eslint .`
+
 ## 🤝 Contributing
 
 Contributions, issues, and feature requests are welcome!
