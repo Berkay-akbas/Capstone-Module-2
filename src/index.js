@@ -33,15 +33,8 @@ const showMessage = (msg, status) => {
   }, 2000);
 };
 
-const showPopupComment = (imgObj) => {
-  const modalContainer = document.querySelector('#modal_container');
-  modalContainer.classList.add('show');
-  const modal = document.createElement('div');
-  modal.classList.add('modal');
-  const commentsDiv = document.createElement('div');
-  commentsDiv.classList.add('comments-list');
-
-  const content = `<img src=${imgObj[0].img} class="popup-image">
+const getImageAndDescription = (imgObj) => {
+  return `<img src=${imgObj[0].img} class="popup-image">
       <button class="btn-close" id="close-comment"><i class="fa-solid fa-xmark"></i></button>
       <h3>${imgObj[0].desc}</h3>
       <div class="description">
@@ -50,14 +43,22 @@ const showPopupComment = (imgObj) => {
         <p>id: ${imgObj[0].id}</p>
         <p>color: ${imgObj[0].color}</p>
       </div>`;
+};
 
-  const commentForm = `<form class="comment-form">
-            <h3>Add a comment</h3>
-            <p class="message"></p>
-            <input type="text" class="user-name" required placeholder="Your name">
-            <textarea class="user-comment" cols="30" rows="10" placeholder="Your Insights"></textarea>
-            <button class="btn btn-add-comment">Comment</button>
-          </form>`;
+const getCommentForm = () => {
+  const form = document.createElement('form');
+  form.classList.add('comment-form');
+  form.innerHTML = `<h3>Add a comment</h3>
+      <p class="message"></p>
+      <input type="text" class="user-name" required placeholder="Your name">
+      <textarea class="user-comment" cols="30" rows="10" placeholder="Your Insights"></textarea>
+      <button class="btn btn-add-comment">Comment</button>`;
+  return form;
+};
+
+const updateComments = (imgObj, modal, commentForm) => {
+  const commentsDiv = document.createElement('div');
+  commentsDiv.classList.add('comments-list');
 
   getComments(imgObj[0].id).then((values) => {
     const numOfComments = countComments(values);
@@ -68,31 +69,48 @@ const showPopupComment = (imgObj) => {
       });
     }
   }).then(() => {
-    modal.innerHTML = content;
-    modal.appendChild(commentsDiv);
-    modal.innerHTML += commentForm;
-    modalContainer.appendChild(modal);
+    modal.insertBefore(commentsDiv, commentForm);
+  });
+  return commentsDiv;
+};
 
-    const btnAddComment = document.querySelector('.btn-add-comment');
-    btnAddComment.addEventListener('click', (e) => {
-      e.preventDefault();
-      const userName = document.querySelector('.user-name');
-      const userComment = document.querySelector('.user-comment');
-      postComments(imgObj[0].id, userName.value, userComment.value).then((status) => {
-        if (status === 201) {
-          showMessage('Comment Added Successfully', 'success');
-        } else {
-          showMessage('There is some error', 'error');
-        }
-        userName.value = '';
-        userComment.value = '';
-      });
-    });
+const showPopupComment = (imgObj) => {
+  const modalContainer = document.querySelector('#modal_container');
+  modalContainer.classList.add('show');
 
-    const closeComment = document.querySelector('#close-comment');
-    closeComment.addEventListener('click', () => {
-      modalContainer.classList.remove('show');
-      modalContainer.removeChild(modal);
+  const modal = document.createElement('div');
+  modal.classList.add('modal');
+
+  const imageAndDescription = getImageAndDescription(imgObj);
+  modal.innerHTML = imageAndDescription;
+
+  const commentForm = getCommentForm();
+  modal.appendChild(commentForm);
+  modalContainer.appendChild(modal);
+
+  const closeComment = document.querySelector('#close-comment');
+  closeComment.addEventListener('click', () => {
+    modalContainer.classList.remove('show');
+    modalContainer.removeChild(modal);
+  });
+
+  const commentsDiv = updateComments(imgObj, modal, commentForm);
+
+  const btnAddComment = document.querySelector('.btn-add-comment');
+  btnAddComment.addEventListener('click', (e) => {
+    e.preventDefault();
+    const userName = document.querySelector('.user-name');
+    const userComment = document.querySelector('.user-comment');
+    postComments(imgObj[0].id, userName.value, userComment.value).then((status) => {
+      if (status === 201) {
+        modal.removeChild(commentsDiv);
+        updateComments(imgObj, modal, commentForm);
+        // showMessage('Comment Added Successfully', 'success');
+      } else {
+        showMessage('There is some error', 'error');
+      }
+      userName.value = '';
+      userComment.value = '';
     });
   });
 };
