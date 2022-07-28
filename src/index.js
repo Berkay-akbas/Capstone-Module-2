@@ -1,7 +1,7 @@
 import './style.css';
-import { getLikes, postLikes } from './likes.js';
-import { getComments, postComments, countComments } from './comments.js';
-import count from './itemsCounter.js';
+import { getLikes, postLikes } from './modules/likes.js';
+import { getComments, postComments, countComments } from './modules/comments.js';
+import count from './modules/itemsCounter.js';
 
 const cars = document.querySelector('.cars');
 const nature = document.querySelector('.nature');
@@ -105,7 +105,6 @@ const showPopupComment = (imgObj) => {
       if (status === 201) {
         modal.removeChild(commentsDiv);
         updateComments(imgObj, modal, commentForm);
-        // showMessage('Comment Added Successfully', 'success');
       } else {
         showMessage('There is some error', 'error');
       }
