@@ -9,8 +9,7 @@ const showMessage = (msg, status) => {
   }, 2000);
 };
 
-const getImageAndDescription = (imgObj) => {
-  return `<img src=${imgObj[0].img} class="popup-image">
+const getImageAndDescription = (imgObj) => `<img src=${imgObj[0].img} class="popup-image">
       <button class="btn-close" id="close-comment"><i class="fa-solid fa-xmark"></i></button>
       <h3>${imgObj[0].desc}</h3>
       <div class="description">
@@ -19,7 +18,6 @@ const getImageAndDescription = (imgObj) => {
         <p>id: ${imgObj[0].id}</p>
         <p>color: ${imgObj[0].color}</p>
       </div>`;
-};
 
 const getCommentForm = () => {
   const form = document.createElement('form');

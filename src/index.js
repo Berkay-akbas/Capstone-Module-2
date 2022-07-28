@@ -2,7 +2,7 @@ import './style.css';
 import { getLikes, postLikes } from './modules/likes.js';
 import { getComments, postComments, countComments } from './modules/comments.js';
 import count from './modules/itemsCounter.js';
-import { showMessage, getImageAndDescription, getCommentForm } from './modules/commentsUI';
+import { showMessage, getImageAndDescription, getCommentForm } from './modules/commentsUI.js';
 
 const cars = document.querySelector('.cars');
 const nature = document.querySelector('.nature');
@@ -28,11 +28,9 @@ const updateComments = (imgObj, modal, commentForm) => {
   commentsDiv.classList.add('comments-list');
 
   getComments(imgObj[0].id).then((values) => {
-    const  filter = values.filter(function (ob) {
-      return ob.username != 'Cem oral' && ob.username != 'Berkay akbaş';
-    });
+    const filter = values.filter((ob) => ob.username !== 'Cem oral' && ob.username !== 'Berkay akbaş');
     const numOfComments = countComments(filter);
-    
+
     commentsDiv.innerHTML += `<h3>Comments (${numOfComments})</h3>`;
     if (numOfComments > 0) {
       filter.forEach((value) => {
